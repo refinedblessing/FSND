@@ -155,7 +155,7 @@ Sample Response
 
 - Deletes any question with id equals question_id from the database.
 - Request Arguments: question_id. This refers to the id of the specific question to be deleted.
-- Response: success or 404 if not found.
+- Response: success and question id or 404 if not found.
 
 Sample Request
 
@@ -167,7 +167,8 @@ Sample Response
 
 ```sh
 {
-  'success': True
+  "success": True
+  "id": 3
 }
 ```
 
@@ -284,8 +285,6 @@ Sample Response
 #### POST `/api/quizzes`
 
 - Fetch random quiz question that matches quiz_category and not a previous_question
-
-NOTE: If questions in quiz_category have been exhausted and number of answered questions is not yet equal to questionsPerPlay, a random question from another category is returned
 
 Sample Request
 
