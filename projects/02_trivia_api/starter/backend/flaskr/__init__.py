@@ -140,7 +140,8 @@ def create_app(test_config=None):
         '''
         DELETE /api/questions/<question_id>
         Args: question_id, Id of question to be deleted.
-        Response: {"success": True} or passed to the 404 error handler
+        Response: {"success": True, "id": question_id} or passed to the
+        404 error handler
         '''
 
         question = Question.query.filter(
@@ -151,7 +152,8 @@ def create_app(test_config=None):
 
         question.delete()
         return jsonify({
-            'success': True
+            'success': True,
+            'id': question_id
         })
 
     def is_valid(data):
@@ -316,22 +318,16 @@ def create_app(test_config=None):
         JsonData: Takes quiz_category and previous_questions parameters.
         Response: A random question within the given category provided,
         and that is not one of the previous questions.
-        NOTE: If questions in quiz_category have been exhausted and number of
-        answered questions is not yet equal to questionsPerPlay, a random
-        question from another category is returned
         '''
         try:
             data = request.get_json()
             prev_questions = data.get('previous_questions', [])
-            quiz_category = data.get('quiz_category', {'id': 0})
+            quiz_category = data.get('quiz_category', None)
+            validate_or_abort(quiz_category)
 
             question = Question.query.filter(
                 quiz_filter(quiz_category, prev_questions)).order_by(
                     func.random()).limit(1).one_or_none()
-            if question is None:
-                question = Question.query.filter(
-                    quiz_filter({'id': 0}, prev_questions)).order_by(
-                        func.random()).limit(1).one_or_none()
 
             if question is not None:
                 question = question.format()

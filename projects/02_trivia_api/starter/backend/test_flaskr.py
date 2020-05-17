@@ -74,6 +74,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
+        self.assertEqual(data['id'], q.format()['id'])
         self.assertEqual(question, None)
 
     def test_delete_invalid_id_question(self):
@@ -182,10 +183,9 @@ class TriviaTestCase(unittest.TestCase):
 
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertTrue(data['question'])
-        self.assertTrue(len(data['question']))
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
 
     def test_get_quiz_question_without_parameters_category(self):
         res = self.client().post('/api/quizzes')
