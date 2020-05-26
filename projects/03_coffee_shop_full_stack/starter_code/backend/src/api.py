@@ -18,12 +18,13 @@ CORS(app)
 '''
 # db_drop_and_create_all()
 
-## ROUTES
+# ROUTES
 '''
     GET /drinks
         it should be a public endpoint
         it should contain only the drink.short() data representation
-    returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
+    returns status code 200 and json {"success": True, "drinks": drinks}
+        where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks')
@@ -32,11 +33,13 @@ def get_short_drinks():
     short_drinks = [drink.short() for drink in drinks]
     return {"success": True, "drinks": short_drinks}
 
+
 '''
     GET /drinks-detail
         it should require the 'get:drinks-detail' permission
         it should contain the drink.long() data representation
-    returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
+    returns status code 200 and json {"success": True, "drinks": drinks} where
+        drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks-detail')
@@ -52,7 +55,8 @@ def get_long_drinks(payload):
         it should create a new row in the drinks table
         it should require the 'post:drinks' permission
         it should contain the drink.long() data representation
-    returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
+    returns status code 200 and json {"success": True, "drinks": drink}
+        where drink an array containing only the newly created drink
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks', methods=['POST'])
@@ -73,6 +77,7 @@ def create_drinks(payload):
     except Exception:
         abort(422)
 
+
 '''
     PATCH /drinks/<id>
         where <id> is the existing model id
@@ -80,7 +85,8 @@ def create_drinks(payload):
         it should update the corresponding row for <id>
         it should require the 'patch:drinks' permission
         it should contain the drink.long() data representation
-    returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
+    returns status code 200 and json {"success": True, "drinks": drink}
+        where drink an array containing only the updated drink
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks/<int:id>', methods=['PATCH'])
@@ -100,13 +106,15 @@ def update_drinks(payload, id):
     except Exception:
         abort(404)
 
+
 '''
     DELETE /drinks/<id>
         where <id> is the existing model id
         it should respond with a 404 error if <id> is not found
         it should delete the corresponding row for <id>
         it should require the 'delete:drinks' permission
-    returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted record
+    returns status code 200 and json {"success": True, "delete": id}
+        where id is the id of the deleted record
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks/<int:id>', methods=['DELETE'])
@@ -123,14 +131,16 @@ def delete_drinks(payload, id):
     except Exception:
         abort(404)
 
-## Error Handling
+
+# Error Handling
 @app.errorhandler(422)
 def unprocessable(error):
     return jsonify({
-        "success": False, 
+        "success": False,
         "error": 422,
         "message": "unprocessable"
     }), 422
+
 
 @app.errorhandler(400)
 def bad_request(error):
@@ -140,6 +150,7 @@ def bad_request(error):
         "message": "bad_request"
     }), 400
 
+
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({
@@ -147,6 +158,7 @@ def not_found(error):
         "error": 404,
         "message": "not_found"
     }), 404
+
 
 @app.errorhandler(405)
 def method_not_allowed(error):
@@ -156,6 +168,7 @@ def method_not_allowed(error):
         "message": "method_not_allowed"
     }), 405
 
+
 @app.errorhandler(500)
 def internal_server_error(error):
     return jsonify({
@@ -164,9 +177,12 @@ def internal_server_error(error):
         "message": "internal_server_error"
     }), 500
 
+
 '''
-AuthError error handler 
+AuthError error handler
 '''
+
+
 @app.errorhandler(AuthError)
 def handle_auth_error(ex):
     return jsonify({
@@ -176,6 +192,8 @@ def handle_auth_error(ex):
     }), ex.status_code
 
 # Utility functions
+
+
 def is_valid(data):
     '''
     Validates that data is not None
@@ -185,6 +203,7 @@ def is_valid(data):
     if data is None:
         return False
     return True
+
 
 def validate_or_abort(data):
     '''
