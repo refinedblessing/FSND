@@ -49,6 +49,20 @@ This will install all of the required packages we selected within the `requireme
 
 - [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) iis an extension that handles SQLAlchemy database migrations for Flask applications using Alembic.
 
+## Database Setup
+
+With Postgres running, run
+
+```sh
+dropdb casting_agency
+createdb casting_agency
+psql casting_agency < casting_agency.psql
+```
+
+```sh
+flask db upgrade
+```
+
 ## Running the server
 
 From within the `./starter` directory first ensure you are working using your created virtual environment.
@@ -67,22 +81,58 @@ flask run --reload
 
 The `--reload` flag will detect file changes and restart the server automatically.
 
-## Database Setup
-
-Start by running
-
-```sh
-flask db upgrade
-```
-
 Note: All backend code follows [PEP8 style guidelines.](https://www.python.org/dev/peps/pep-0008/)
 
 ## API Documentation
 
 - Base URL: Currently hosted at *heroku link*, when run locally it is hosted at the default `http://127.0.0.1:5000`
-- Authentication: No authentication needed for this version
+- Authentication: Auth0 username-password/google authentication is being used.
+
+### Roles
+
+Casting Assistant/Anyone:
+
+- Can view actors and movies
+
+Casting Director:
+
+- All permissions a Casting Assistant has and…
+- Add or delete an actor from the database
+- Modify actors or movies
+- scope(include in token request): delete:actors post:actors
+
+Executive Producer:
+
+- All permissions a Casting Director has and…
+- Add or delete a movie from the database
+- scope(include in token request): delete:actors delete:movies post:actors post:movies
 
 ### Actor resource endpoints
+
+#### POST `/api/token`
+
+- This is for preassigned Casting Director and Executive Producer Users
+- Returns jwt token for API's non-GET requests usage
+- Request body should contain username, password and scope
+
+Sample Request for casting director with role already assigned with `casting@gmail.com`
+
+```sh
+curl -X POST -d '{
+  "username": "casting@gmail.com",
+  "password": "Casting@1",
+  "scope": "delete:actors post:actors"
+}' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/token
+```
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiI",
+  "expires_in": 259200,
+  "token_type": "Bearer",
+  "scope": "delete:actors post:actors",
+}
+```
 
 #### GET `/api/actors`
 
@@ -314,23 +364,6 @@ Sample Response
 }
 ```
 
-#### Roles
-
-Casting Assistant:
-
-- Can view actors and movies
-
-Casting Director:
-
-- All permissions a Casting Assistant has and…
-- Add or delete an actor from the database
-- Modify actors or movies
-  
-Executive Producer:
-
-- All permissions a Casting Director has and…
-- Add or delete a movie from the database
-
 #### Error Handling
 
 Errors are returned in the following format:
@@ -356,15 +389,15 @@ We have 5 error types to be returned
 With Postgres running, run
 
 ```sh
-dropdb trivia_test
-createdb trivia_test
-psql trivia_test < trivia.psql
+dropdb casting_agency_test
+createdb casting_agency_test
+psql casting_agency_test < casting_agency.psql
 ```
 
 Then run the test file
 
 ```sh
-python test_flaskr.py
+python test_app.py
 ```
 
 ## Authors

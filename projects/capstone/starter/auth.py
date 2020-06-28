@@ -1,5 +1,7 @@
 import json
-from flask import request, _request_ctx_stack, abort
+import http.client
+import os
+from flask import request, _request_ctx_stack, abort, jsonify
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
@@ -8,6 +10,12 @@ from urllib.request import urlopen
 AUTH0_DOMAIN = 'fsndenv.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'casting-agency'
+TEST_ID = 'igTcQChYDzuZOtP2qKEFPypKHS2KDrca'
+TEST_SECRET = 'IQ5qKdLR-ILVeEX-VFcXz\
+  S_BYbMz4xriexeplw7luWHdIk3DDLgTgWPmAkkoYpsT'
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET', TEST_SECRET)
+CLIENT_ID = os.environ.get('CLIENT_ID', TEST_ID)
+
 
 # AuthError Exception
 '''
@@ -187,3 +195,31 @@ def requires_auth(permission=''):
             return f(payload, *args, **kwargs)
         return wrapper
     return requires_auth_decorator
+
+
+# Takes payload object containing username and password
+# Returns a token that can be used to assess api
+def gen_token(payload):
+    conn = http.client.HTTPSConnection(AUTH0_DOMAIN)
+
+    default_payload = {
+      'client_id': CLIENT_ID,
+      'client_secret': CLIENT_SECRET,
+      'audience': API_AUDIENCE,
+      'grant_type': 'password'
+    }
+
+    default_payload.update(payload)
+
+    headers = {'content-type': 'application/json'}
+
+    conn.request('POST', '/oauth/token', json.dumps(default_payload), headers)
+
+    res = conn.getresponse()
+    data = json.loads(res.read())
+    if res.status != 200:
+        raise AuthError({
+            'code': data['error'],
+            'description': data['error_description']
+        }, res.status)
+    return jsonify(data)
