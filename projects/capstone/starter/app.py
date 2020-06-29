@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -78,6 +79,19 @@ def create_app(test_config=None):
         '''
         if not is_valid(data):
             abort(422)
+
+    def validate_date(date):
+        '''
+        Abort request if date is not valid format
+        Args: date string
+        '''
+        format = '%Y-%m-%d'
+
+        try:
+            datetime.strptime(date, format).strftime(format)
+        except ValueError as e:
+            abort(422)
+        return True
 
     @app.route("/api/actors", methods=['GET'])
     def get_actors():
@@ -346,6 +360,52 @@ def create_app(test_config=None):
             'success': True,
             'id': movie_id
         })
+
+    @app.route("/api/movies", methods=['POST'])
+    @requires_auth('post:movies')
+    def create_movies(payload):
+        '''
+        POST /api/movies -d '{
+          "title": "the beautiful ones are born",
+          "release_date": "2020-10-08"
+        }' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/movies
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
+        Creates new movie
+        Response: object containing newly created movie
+        {
+            "movie": {
+            "title": "the beautiful ones are born",
+            "release_date": "2020-10-08"
+            "id": 2
+          },
+          "success": true
+        }
+
+        Error: 422 for any validation errors
+        '''
+        try:
+            data = request.get_json()
+            title = data.get('title', None)
+            release_date = data.get('release_date', None)
+
+            # validate data before creating
+            validate_or_abort(title)
+            validate_or_abort(release_date)
+            validate_date(release_date)
+
+            newMovie = Movie(
+                title=title,
+                release_date=release_date
+            )
+
+            newMovie.insert()
+
+            return jsonify({
+                'success': True,
+                'movie': newMovie.format()
+            })
+        except Exception:
+            abort(422)
 
     # Error Handling
     @app.errorhandler(AuthError)

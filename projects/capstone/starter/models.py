@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 from sqlalchemy import Column, String, Integer, Date, create_engine
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -56,7 +57,7 @@ class Movie(db.Model):
         return {
           'id': self.id,
           'title': self.title,
-          'release_date': self.release_date
+          'release_date': datetime.strftime(self.release_date, '%Y-%m-%d')
         }
 
 
