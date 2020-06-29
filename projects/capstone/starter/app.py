@@ -261,6 +261,43 @@ def create_app(test_config=None):
         except Exception:
             abort(404)
 
+    # Movie Endpoints
+    @app.route("/api/movies", methods=['GET'])
+    def get_movies():
+        '''
+        GET /api/movies
+        Args: None
+        Response: An object containing a list of *movies*,
+        the number of *total_movies*, and *success* message.
+        {
+            "movies": [
+                {
+                  "title": "the beautiful ones are born",
+                  "release_date": "2020-10-08"
+                  "id": 1,
+                },
+                {
+                  "title": "the beautiful ones are born",
+                  "release_date": "2020-10-08"
+                  "id": 2,
+                }...
+            ],
+            "success": true,
+            "total_movies": 19
+        }
+        '''
+        movies = Movie.query.order_by(Movie.id).all()
+        paginated_movies = paginate_items(request, movies)
+
+        if len(paginated_movies) == 0:
+            abort(404)
+
+        return jsonify({
+            'movies': paginated_movies,
+            'success': True,
+            'total_movies': len(movies)
+        })
+
     # Error Handling
     @app.errorhandler(422)
     def unprocessable(error):

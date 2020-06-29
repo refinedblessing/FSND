@@ -224,7 +224,23 @@ class CastingAgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertFalse(data['actor'])
+
+    def test_get_movies(self):
+        res = self.client().get('/api/movies')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['movies'])
+        self.assertTrue(len(data['movies']))
+
+    def test_get_movies_invalid_page(self):
+        res = self.client().get('/api/movies?page=1000')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'not_found')
 
 
 # Make the tests conveniently executable
