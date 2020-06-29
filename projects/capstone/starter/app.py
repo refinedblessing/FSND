@@ -61,6 +61,24 @@ def create_app(test_config=None):
             item.format() for item in items]
         return formatted_items[start:end]
 
+    def is_valid(data):
+        '''
+        Validates that data is not None
+        Args: data
+        Returns: True if presents and False if absent
+        '''
+        if data is '' or data is None:
+            return False
+        return True
+
+    def validate_or_abort(data):
+        '''
+        Abort request if data is not valid
+        Args: data
+        '''
+        if not is_valid(data):
+            abort(422)
+
     @app.route("/api/actors", methods=['GET'])
     def get_actors():
         '''
@@ -154,6 +172,56 @@ def create_app(test_config=None):
             'success': True,
             'id': actor_id
         })
+
+    @app.route("/api/actors", methods=['POST'])
+    @requires_auth('post:actors')
+    def create_actors(payload):
+        '''
+        POST /api/actors -d '{
+          "name": "John Doe",
+          "age": 44,
+          "gender": "male"
+        }' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/actors
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
+        Creates new actor
+        Response: object containing newly created actor
+        {
+            "actor": {
+            "name": "John Doe",
+            "age": 44,
+            "gender": "male",
+            "id": 2
+          },
+          "success": true
+        }
+
+        Error: 422 for any validation errors
+        '''
+        try:
+            data = request.get_json()
+            name = data.get('name', None)
+            age = data.get('age', None)
+            gender = data.get('gender', None)
+
+            # validate data before creating
+            validate_or_abort(name)
+            validate_or_abort(age)
+            validate_or_abort(gender)
+
+            newActor = Actor(
+                name=name,
+                gender=gender,
+                age=age
+            )
+
+            newActor.insert()
+
+            return jsonify({
+                'success': True,
+                'actor': newActor.format()
+            })
+        except Exception:
+            abort(422)
 
 
     # Error Handling

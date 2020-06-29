@@ -144,6 +144,60 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(
           data['message']['code'], 'authorization_header_missing')
 
+    def test_create_actor_by_director(self):
+        res = self.client().post(
+          '/api/actors',
+          json={"name": "John Doe", "age": 44, "gender": "male"},
+          headers={"Authorization": "Bearer " + director_role_token}
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['actor'])
+        self.assertEqual(data['actor']['age'], 44)
+        self.assertEqual(data['actor']['gender'], 'male')
+
+    def test_create_actor_by_producer(self):
+        res = self.client().post(
+          '/api/actors',
+          json={"name": "John Doe", "age": 44, "gender": "male"},
+          headers={"Authorization": "Bearer " + producer_role_token}
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['actor'])
+        self.assertEqual(data['actor']['age'], 44)
+        self.assertEqual(data['actor']['gender'], 'male')
+
+    def test_create_invalid_actor(self):
+        res = self.client().post('/api/actors', json={
+            'actor': 'actor',
+          },
+          headers={"Authorization": "Bearer " + producer_role_token}
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'unprocessable')
+
+    def test_create_actor_invalid_token(self):
+        res = self.client().post('/api/actors', json={
+          "name": "John Doe", "age": 44, "gender": "male"},
+          headers={"Authorization": "Bearer "}
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message']['description'], 'Token not found.')
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
