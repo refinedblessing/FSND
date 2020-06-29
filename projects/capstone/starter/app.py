@@ -298,6 +298,33 @@ def create_app(test_config=None):
             'total_movies': len(movies)
         })
 
+    @app.route("/api/movies/<int:movie_id>", methods=['GET'])
+    def get_movie(movie_id):
+        '''
+        GET /api/movies/<movie_id>
+        Args: movie_id, Id of movie to be returned.
+        Response: {
+          "movie": {
+            "title": "the beautiful ones are born",
+            "release_date": "2020-10-08"
+            "id": 3,
+          },
+          "success": true
+        } or passed to the
+        404 error handler if not found
+        '''
+
+        movie = Movie.query.filter(
+            Movie.id == movie_id).one_or_none()
+
+        if movie is None:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'movie': movie.format()
+        })
+
     # Error Handling
     @app.errorhandler(422)
     def unprocessable(error):
