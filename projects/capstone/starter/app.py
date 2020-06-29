@@ -130,7 +130,7 @@ def create_app(test_config=None):
         actors = Actor.query.order_by(Actor.id).all()
         paginated_actors = paginate_items(request, actors)
 
-        if len(paginated_actors) == 0:
+        if len(paginated_actors) == 0 and len(actors) != 0:
             abort(404)
 
         return jsonify({
@@ -310,7 +310,7 @@ def create_app(test_config=None):
         movies = Movie.query.order_by(Movie.id).all()
         paginated_movies = paginate_items(request, movies)
 
-        if len(paginated_movies) == 0:
+        if len(paginated_movies) == 0 and len(movies) != 0:
             abort(404)
 
         return jsonify({
