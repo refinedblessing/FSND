@@ -258,6 +258,70 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
 
+    def test_delete_movie_by_producer(self):
+        a = Movie(
+            title="End Game", release_date="2020-09-10"
+        )
+        a.insert()
+        movie_id = str(a.format()['id'])
+        res = self.client().delete(
+          '/api/movies/' + movie_id,
+          headers={"Authorization": "Bearer " + producer_role_token}
+        )
+
+        data = json.loads(res.data)
+
+        movie = Movie.query.filter(
+            Movie.id == movie_id).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['id'], a.format()['id'])
+        self.assertEqual(movie, None)
+
+    def test_delete_movie_unauthorized_director(self):
+        m = Movie(
+            title="End Game", release_date="2020-09-10"
+        )
+        m.insert()
+        movie_id = str(m.format()['id'])
+        res = self.client().delete(
+          '/api/movies/' + movie_id,
+          headers={"Authorization": "Bearer " + director_role_token}
+        )
+
+        data = json.loads(res.data)
+
+        movie = Movie.query.filter(
+            Movie.id == movie_id).one_or_none()
+
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message']['description'], 'Permission not found')
+        self.assertNotEqual(movie, None)
+        self.assertEqual(movie.title, m.title)
+
+    def test_delete_invalid_id_movie(self):
+        res = self.client().delete(
+          '/api/movies/1000',
+          headers={"Authorization": "Bearer " + producer_role_token}
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'not_found')
+
+    def test_delete_movie_no_token(self):
+        res = self.client().delete('/api/movies/1')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(
+          data['message']['code'], 'authorization_header_missing')
+
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":

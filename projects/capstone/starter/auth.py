@@ -189,9 +189,13 @@ def requires_auth(permission=''):
             token = get_token_auth_header()
             try:
                 payload = verify_decode_jwt(token)
-                check_permissions(permission, payload)
-            except Exception:
-                abort(401)
+            except Exception as e:
+                print(e)
+                raise AuthError({
+                    'code': 'expired_token',
+                    'description': 'The provided token has expired'
+                }, 401)
+            check_permissions(permission, payload)
             return f(payload, *args, **kwargs)
         return wrapper
     return requires_auth_decorator

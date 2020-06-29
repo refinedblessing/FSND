@@ -325,7 +325,40 @@ def create_app(test_config=None):
             'movie': movie.format()
         })
 
+    @app.route("/api/movies/<int:movie_id>", methods=['DELETE'])
+    @requires_auth('delete:movies')
+    def delete_movie(payload, movie_id):
+        '''
+        DELETE /api/movies/<movie_id>
+        Args: movie_id, Id of movie to be deleted.
+        Response: {"success": True, "id": movie_id} or passed to the
+        404 error handler
+        '''
+
+        movie = Movie.query.filter(
+            Movie.id == movie_id).one_or_none()
+
+        if movie is None:
+            abort(404)
+
+        movie.delete()
+        return jsonify({
+            'success': True,
+            'id': movie_id
+        })
+
     # Error Handling
+    @app.errorhandler(AuthError)
+    def handle_auth_error(ex):
+        '''
+        AuthError error handler
+        '''
+        return jsonify({
+            "success": False,
+            "error": ex.status_code,
+            "message": ex.error
+        }), ex.status_code
+
     @app.errorhandler(422)
     def unprocessable(error):
         return jsonify({
@@ -341,6 +374,14 @@ def create_app(test_config=None):
             "error": 400,
             "message": "bad_request"
         }), 400
+
+    @app.errorhandler(401)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 401,
+            "message": "unauthorized"
+        }), 401
 
     @app.errorhandler(404)
     def not_found(error):
@@ -365,18 +406,6 @@ def create_app(test_config=None):
             "error": 500,
             "message": "internal_server_error"
         }), 500
-
-    '''
-    AuthError error handler
-    '''
-
-    @app.errorhandler(AuthError)
-    def handle_auth_error(ex):
-        return jsonify({
-            "success": False,
-            "error": ex.status_code,
-            "message": ex.error
-        }), ex.status_code
 
     return app
 
