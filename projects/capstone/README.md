@@ -86,7 +86,7 @@ Note: All backend code follows [PEP8 style guidelines.](https://www.python.org/d
 ## API Documentation
 
 - Base URL: Currently hosted at *heroku link*, when run locally it is hosted at the default `http://127.0.0.1:5000`
-- Authentication: Auth0 username-password/google authentication is being used.
+- Authentication: Auth0 username-password/google authentication is being used. All routes excluding the `api/token` route need a token
 
 ### Roles
 
@@ -105,13 +105,16 @@ Executive Producer:
 - All permissions a Casting Director has and…
 - Add or delete a movie from the database
 
-### Actor resource endpoints
+Token needed for GET requests can be gotten from the access token returned in the redirect url after visiting link below.
+CLIENT_ID is located in the env_file
+`https://fsndenv.auth0.com/authorize?audience=casting-agency&response_type=token&client_id={{CLIENT_ID}}&redirect_uri=http://127.0.0.1:5000/`
 
 #### POST `/api/token`
 
-- This is for preassigned Casting Director and Executive Producer Users
-- Returns jwt token for API's non-GET requests usage
-- Request body should contain username, password
+- Returns jwt token for accessing API endpoints
+- Request body should contain pre-registered username, password
+
+N.B: I will supply already registered username and password that have been assigned roles, for easy testing.
 
 Sample Request for casting director with role already assigned with `casting@gmail.com`
 
@@ -131,16 +134,20 @@ curl -X POST -d '{
 }
 ```
 
+### Actor resource endpoints
+
 #### GET `/api/actors`
 
 - Fetches actors, by default you get an array of the first 10 actors i.e page 1.
 - Request Arguments: page/none, to get a certain page you can make use of the page query parameter as shown below, e.g sending page=2, will give you the second set of ten actors, actors 11 - 20.
 - Response: An object containing a list of *actors*, the number of *total_actors*, and *success* message.
+- Include token in header
   
 Sample Request
 
 ```sh
 curl -H 'Content-Type: application/json' http://127.0.0.1:5000/api/actors?page=2
+- H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response
@@ -177,11 +184,13 @@ Sample Response
 - Gets any actor with id equals actor_id from the database.
 - Request Arguments: actor_id. This refers to the id of the specific actor to be returned.
 - Response: success and actor information or 404 if not found.
+- Include token in header
 
 Sample Request
 
 ```sh
 curl -X GET http://127.0.0.1:5000/api/actors/3
+- H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response
@@ -288,11 +297,13 @@ Sample Response
 - Fetches movies, by default you get an array of the first 10 movies i.e page 1.
 - Request Arguments: page/none, to get a certain page you can make use of the page query parameter as shown below, e.g sending page=2, will give you the second set of ten movies, movies 11 - 20.
 - Response: An object containing a list of *movies*, the number of *total_movies*, and *success* message.
+- Include token in header
   
 Sample Request
 
 ```sh
 curl -H 'Content-Type: application/json' http://127.0.0.1:5000/api/movies?page=2
+- H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response
@@ -326,11 +337,13 @@ Sample Response
 - Gets any movie with id equals movie_id from the database.
 - Request Arguments: movie_id. This refers to the id of the specific movie to be returned.
 - Response: success and movie information or 404 if not found.
+- Include token in header
 
 Sample Request
 
 ```sh
 curl -X GET http://127.0.0.1:5000/api/movies/3
+- H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response
