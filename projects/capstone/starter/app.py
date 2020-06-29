@@ -94,9 +94,11 @@ def create_app(test_config=None):
         return True
 
     @app.route("/api/actors", methods=['GET'])
+    @requires_auth()
     def get_actors():
         '''
         GET /api/actors
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
         Args: None
         Response: An object containing a list of *actors*,
         the number of *total_actors*, and *success* message.
@@ -138,9 +140,11 @@ def create_app(test_config=None):
         })
 
     @app.route("/api/actors/<int:actor_id>", methods=['GET'])
+    @requires_auth()
     def get_actor(actor_id):
         '''
         GET /api/actors/<actor_id>
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
         Args: actor_id, Id of actor to be returned.
         Response: {
           "actor": {
@@ -278,9 +282,11 @@ def create_app(test_config=None):
 
     # Movie Endpoints
     @app.route("/api/movies", methods=['GET'])
+    @requires_auth()
     def get_movies():
         '''
         GET /api/movies
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
         Args: None
         Response: An object containing a list of *movies*,
         the number of *total_movies*, and *success* message.
@@ -314,9 +320,11 @@ def create_app(test_config=None):
         })
 
     @app.route("/api/movies/<int:movie_id>", methods=['GET'])
+    @requires_auth()
     def get_movie(movie_id):
         '''
         GET /api/movies/<movie_id>
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
         Args: movie_id, Id of movie to be returned.
         Response: {
           "movie": {

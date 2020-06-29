@@ -195,8 +195,10 @@ def requires_auth(permission=''):
                     'code': 'expired_token',
                     'description': 'The provided token has expired'
                 }, 401)
-            check_permissions(permission, payload)
-            return f(payload, *args, **kwargs)
+            if permission != '':
+                check_permissions(permission, payload)
+                return f(payload, *args, **kwargs)
+            return f(*args, **kwargs)
         return wrapper
     return requires_auth_decorator
 

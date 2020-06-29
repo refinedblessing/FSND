@@ -24,6 +24,7 @@ producer = {
 
 director_role_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkpHS2R3YkZZVnFveG85eDNEWG8tcyJ9.eyJpc3MiOiJodHRwczovL2ZzbmRlbnYuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDVlZjkwYjI5YWI1ZDhjMDAxOWM5OGVlNSIsImF1ZCI6ImNhc3RpbmctYWdlbmN5IiwiaWF0IjoxNTkzMzkzMjcxLCJleHAiOjE1OTM2NTI0NzEsImF6cCI6Ik5pWjl5YlFsYWJsNHUyQTZDa0xaSjZIOWVTbXZadEV1IiwiZ3R5IjoicGFzc3dvcmQiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3JzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwb3N0OmFjdG9ycyJdfQ.uggiD_yhO_Ffl-eLJdWAEi3risTm0kUb_KJU5NpdgmTiuyWR66iB0cB_eixC73kFPO9sEXT09JVpbd1ptofVYaM9lEA-Mx7tVfIKnbQ5nlEHj98VZ3Jt6yPr6qHApr4UjXTBGKpi3MvpwW4vDCL7DCWjaktYOB48Wtkaex-77oS5s1pZTT2rjSQD9PWc4Hdh3qJFYjVhxjWdPxaVrt-m22qw6XyXvyTDSxPDptHrO3TnaHPqojZ0YdNJlYCajgiDJqyOErL9QCxhcqeB3FbQaePxxPLmsLKht8zqX14Ddov3xFiMjlh9ZmOhSSPOfZroLycSq1EJ3VvjJn6QJoiaCQ'  # noqa E501
 producer_role_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkpHS2R3YkZZVnFveG85eDNEWG8tcyJ9.eyJpc3MiOiJodHRwczovL2ZzbmRlbnYuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDVlZjhmYmJkZTgyNGE1MDAxOTIxMmVhZCIsImF1ZCI6ImNhc3RpbmctYWdlbmN5IiwiaWF0IjoxNTkzMzkzNzExLCJleHAiOjE1OTM2NTI5MTEsImF6cCI6Ik5pWjl5YlFsYWJsNHUyQTZDa0xaSjZIOWVTbXZadEV1IiwiZ3R5IjoicGFzc3dvcmQiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIiwicG9zdDphY3RvcnMiLCJwb3N0Om1vdmllcyJdfQ.TJiDy8sqJWEacb-Jp4qyZxj7Fq9k49yx6iZT2zyWre3TT2DAtXRXgy2jh5a-LERws36G93w3KL__4Ei6zsUTjtXfutH0qQCzGoT1a3ogvyKaCp8HlHHlLRd92MfmwAltsVaLMnpuQu_e5KoXSPwQ-AEISvjBGh5RoFWAvGOCvoMBWb4pqPMxvVyRhj0zNVi7ALEbD-lwVeBr377T0PltxcvvTxg7nCb8ydpnzJtmWaII80s84a9_qeCl10SwBhNIJxL7FrNTQDgkg31xg6U2Ee4uvgNql0hTN5NkVRuRwDHoD5_BJNtUK6yR05s5z9JG8oooka7c9N4a91Ry-DbLRg'  # noqa E501
+regular_user_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkpHS2R3YkZZVnFveG85eDNEWG8tcyJ9.eyJpc3MiOiJodHRwczovL2ZzbmRlbnYuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDVlZjk3NGJjMzUyZDhmMDAxM2M0N2ExOCIsImF1ZCI6ImNhc3RpbmctYWdlbmN5IiwiaWF0IjoxNTkzNDA3MjY0LCJleHAiOjE1OTM0OTM2NjQsImF6cCI6Ik5pWjl5YlFsYWJsNHUyQTZDa0xaSjZIOWVTbXZadEV1Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6W119.oA8aMvhyQCpuY1EWzuKvd5X7725wS-bm34Jg18frm-9harJz508AUA49Dhpwx-fUiDpb4N6hCmWQL8bMpjCLFPgt4OdSao24aCimWI6ecEekJVILehGyPFrUzmwn_btLFEOx2h2Ngo2Vzi03BSDDXhmbeQWjGjeypesoN3PZj3-6WHoZddNcWQXKXNdACGD-7_7dLur-giatOzi9-A8wJ2fg8ZjLoJ9HeWUw8ZMAKrPUU_XyBcJZgwDu1ae4dEy-ZULn9GTxrnnO3T4VcnlOnaqLmdpqkEsWQC8kiSqNcs-Pwh2hMiNqJpD6l8R2qqfdgTHtiby2-cK9xvEZcUXsdA'  # noqa 501
 # director_role_token = ''
 # producer_role_token = ''
 
@@ -51,7 +52,9 @@ class CastingAgencyTestCase(unittest.TestCase):
             self.db.create_all()
 
     def test_get_actors(self):
-        res = self.client().get('/api/actors')
+        res = self.client().get('/api/actors', headers={
+          "Authorization": "Bearer " + regular_user_token}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -59,16 +62,18 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertTrue(data['actors'])
         self.assertTrue(len(data['actors']))
 
-    def test_404_sent_for_invalid_page(self):
-        res = self.client().get('/api/actors?page=1000')
+    def test_no_token_get_request(self):
+        res = self.client().get('/api/actors?page=1')
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 404)
+        self.assertEqual(res.status_code, 401)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'not_found')
+        self.assertEqual(data['message']['code'], 'authorization_header_missing')
 
     def test_get_actor(self):
-        res = self.client().get('/api/actors/1')
+        res = self.client().get('/api/actors/1', headers={
+          "Authorization": "Bearer " + regular_user_token}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -77,7 +82,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['actor']['id'], 1)
 
     def test_get_actor_invalid_id(self):
-        res = self.client().get('/api/actors/1000')
+        res = self.client().get('/api/actors/1000', headers={
+          "Authorization": "Bearer " + regular_user_token}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -226,7 +233,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
 
     def test_get_movies(self):
-        res = self.client().get('/api/movies')
+        res = self.client().get('/api/movies', headers={
+          "Authorization": "Bearer " + regular_user_token}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -235,7 +244,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertTrue(len(data['movies']))
 
     def test_get_movies_invalid_page(self):
-        res = self.client().get('/api/movies?page=1000')
+        res = self.client().get('/api/movies?page=1000', headers={
+          "Authorization": "Bearer " + regular_user_token}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -243,7 +254,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'not_found')
 
     def test_get_movie(self):
-        res = self.client().get('/api/movies/1')
+        res = self.client().get('/api/movies/1', headers={
+          "Authorization": "Bearer " + regular_user_token}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -252,7 +265,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['movie']['id'], 1)
 
     def test_get_movie_invalid_id(self):
-        res = self.client().get('/api/movies/1000')
+        res = self.client().get('/api/movies/1000', headers={
+          "Authorization": "Bearer " + regular_user_token}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
