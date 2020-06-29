@@ -244,8 +244,9 @@ def create_app(test_config=None):
         POST /api/actors/2 -d '{
           "name": "John Doe",
           "gender": "female"
-        }' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/actors
+        }' -H 'Content-Type: application/json'
         - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
+        http://127.0.0.1:5000/api/actors/2
         Updates previous actor
         Response: object containing updated actor
         {
@@ -406,6 +407,41 @@ def create_app(test_config=None):
             })
         except Exception:
             abort(422)
+
+    @app.route('/api/movies/<int:movie_id>', methods=['PATCH'])
+    @requires_auth('post:movies')
+    def update_movies(payload, movie_id):
+        '''
+        POST /api/movies/2 -d '{
+          "release_date": "2020-10-08"
+        }' -H 'Content-Type: application/json'
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
+        http://127.0.0.1:5000/api/movies/2
+        Updates previous movie
+        Response: object containing updated movie
+        {
+          "movie": {
+            "release_date": "2020-10-08",
+            "title": "the beautiful ones are born",
+            "id": 2
+
+          },
+          "success": true
+        }
+        '''
+        try:
+            movie = Movie.query.filter_by(id=movie_id).one()
+            data = request.get_json()
+            title = data.get('title', None)
+            if title:
+                movie.title = title
+            release_date = data.get('release_date', None)
+            if release_date:
+                movie.release_date = release_date
+            movie.insert()
+            return jsonify({'success': True, 'movie': movie.format()})
+        except Exception:
+            abort(404)
 
     # Error Handling
     @app.errorhandler(AuthError)
