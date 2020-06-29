@@ -73,6 +73,12 @@ Each time you open a new terminal session, run:
 export FLASK_APP=app.py
 ```
 
+To add the Client secret and url to your environment run below or copy contents of setup.sh file and run in terminal
+
+```bash
+bash setup.sh
+```
+
 To run the server, execute:
 
 ```bash
