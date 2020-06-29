@@ -85,7 +85,7 @@ Note: All backend code follows [PEP8 style guidelines.](https://www.python.org/d
 
 ## API Documentation
 
-- Base URL: Currently hosted at *heroku link*, when run locally it is hosted at the default `http://127.0.0.1:5000`
+- Base URL: Currently hosted at `https://blessings-casting-agency.herokuapp.com`, when run locally it is hosted at the default `http://127.0.0.1:5000`
 - Authentication: Auth0 username-password/google authentication is being used. All routes excluding the `api/token` route need a token
 
 ### Roles
@@ -105,9 +105,11 @@ Executive Producer:
 - All permissions a Casting Director has and…
 - Add or delete a movie from the database
 
-Token needed for GET requests can be gotten from the access token returned in the redirect url after visiting link below.
-CLIENT_ID is located in the env_file
-`https://fsndenv.auth0.com/authorize?audience=casting-agency&response_type=token&client_id={{CLIENT_ID}}&redirect_uri=http://127.0.0.1:5000/`
+### FOR REVIEWER
+
+- ALL NEEDED TOKENS ARE SPECIFIED IN TEST FILE
+
+- APP is hosted here `https://blessings-casting-agency.herokuapp.com`
 
 #### POST `/api/token`
 
