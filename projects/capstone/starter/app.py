@@ -105,6 +105,35 @@ def create_app(test_config=None):
             'total_actors': len(actors)
         })
 
+    @app.route("/api/actors/<int:actor_id>", methods=['GET'])
+    def get_actor(actor_id):
+        '''
+        GET /api/actors/<actor_id>
+        Args: actor_id, Id of actor to be returned.
+        Response: {
+          "actor": {
+            "name": "Glory jane",
+            "age": 16,
+            "gender": "female",
+            "id": 3,
+          },
+          "success": true
+        } or passed to the
+        404 error handler if not found
+        '''
+
+        actor = Actor.query.filter(
+            Actor.id == actor_id).one_or_none()
+
+        if actor is None:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'actor': actor.format()
+        })
+
+
     # Error Handling
     @app.errorhandler(422)
     def unprocessable(error):

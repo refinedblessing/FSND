@@ -44,6 +44,22 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'not_found')
 
+    def test_get_actor(self):
+        res = self.client().get('/api/actors/1')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['actor'])
+        self.assertEqual(data['actor']['id'], 1)
+
+    def test_get_actor_invalid_id(self):
+        res = self.client().get('/api/actors/1000')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
