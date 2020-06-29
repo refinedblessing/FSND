@@ -99,13 +99,11 @@ Casting Director:
 - All permissions a Casting Assistant has and…
 - Add or delete an actor from the database
 - Modify actors or movies
-- scope(include in token request): delete:actors post:actors
 
 Executive Producer:
 
 - All permissions a Casting Director has and…
 - Add or delete a movie from the database
-- scope(include in token request): delete:actors delete:movies post:actors post:movies
 
 ### Actor resource endpoints
 
@@ -113,7 +111,7 @@ Executive Producer:
 
 - This is for preassigned Casting Director and Executive Producer Users
 - Returns jwt token for API's non-GET requests usage
-- Request body should contain username, password and scope
+- Request body should contain username, password
 
 Sample Request for casting director with role already assigned with `casting@gmail.com`
 
@@ -121,7 +119,6 @@ Sample Request for casting director with role already assigned with `casting@gma
 curl -X POST -d '{
   "username": "casting@gmail.com",
   "password": "Casting@1",
-  "scope": "delete:actors post:actors"
 }' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/token
 ```
 
@@ -206,11 +203,13 @@ Sample Response
 - Deletes any actor with id equals actor_id from the database.
 - Request Arguments: actor_id. This refers to the id of the specific actor to be deleted.
 - Response: success and actor id or 404 if not found.
+- Include token in header
 
 Sample Request
 
 ```sh
 curl -X DELETE http://127.0.0.1:5000/api/actors/3
+- H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response
@@ -226,6 +225,7 @@ Sample Response
 
 - Creates a new actor using the given data.
 - Response: object containing newly created actor.
+- Include token in header
 
 Sample Request
 
@@ -235,6 +235,7 @@ curl -X POST -d '{
     "age": 44,
     "gender": "male"
   }' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/actors
+  - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response
@@ -257,6 +258,7 @@ Sample Response
 
 - Creates a new movie using the given data.
 - Response: object containing newly created movie.
+- Include token in header
 
 Sample Request
 
@@ -265,6 +267,7 @@ curl -X POST -d '{
   "title": "the beautiful ones are born",
   "release_date": "2020-10-08"
 }' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/movies
+- H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response
@@ -348,11 +351,13 @@ Sample Response
 - Deletes any movie with id equals movie_id from the database.
 - Request Arguments: movie_id. This refers to the id of the specific movie to be deleted.
 - Response: success and movie id or 404 if not found.
+- Include token in header
 
 Sample Request
 
 ```sh
 curl -X DELETE http://127.0.0.1:5000/api/movies/3
+- H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
 ```
 
 Sample Response

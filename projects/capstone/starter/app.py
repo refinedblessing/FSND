@@ -133,6 +133,28 @@ def create_app(test_config=None):
             'actor': actor.format()
         })
 
+    @app.route("/api/actors/<int:actor_id>", methods=['DELETE'])
+    @requires_auth('delete:actors')
+    def delete_actor(payload, actor_id):
+        '''
+        DELETE /api/actors/<actor_id>
+        Args: actor_id, Id of actor to be deleted.
+        Response: {"success": True, "id": actor_id} or passed to the
+        404 error handler
+        '''
+
+        actor = Actor.query.filter(
+            Actor.id == actor_id).one_or_none()
+
+        if actor is None:
+            abort(404)
+
+        actor.delete()
+        return jsonify({
+            'success': True,
+            'id': actor_id
+        })
+
 
     # Error Handling
     @app.errorhandler(422)
