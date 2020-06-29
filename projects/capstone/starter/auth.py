@@ -10,11 +10,8 @@ from urllib.request import urlopen
 AUTH0_DOMAIN = 'fsndenv.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'casting-agency'
-TEST_ID = 'NiZ9ybQlabl4u2A6CkLZJ6H9eSmvZtEu'
-TEST_SECRET = 'RCTVLGjcOfju0Xe8v6nB_ha9jB3WK\
-  lM9lArpVcnOlrZh0O2wU6xZyYXEe3l-SigW'
-CLIENT_SECRET = os.environ.get('CLIENT_SECRET', TEST_SECRET)
-CLIENT_ID = os.environ.get('CLIENT_ID', TEST_ID)
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+CLIENT_ID = os.environ.get('CLIENT_ID')
 
 
 # AuthError Exception
