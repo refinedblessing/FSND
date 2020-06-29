@@ -223,6 +223,43 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
+    @app.route('/api/actors/<int:actor_id>', methods=['PATCH'])
+    @requires_auth('post:actors')
+    def update_actors(payload, actor_id):
+        '''
+        POST /api/actors/2 -d '{
+          "name": "John Doe",
+          "gender": "female"
+        }' -H 'Content-Type: application/json' http://127.0.0.1:5000/api/actors
+        - H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp'
+        Updates previous actor
+        Response: object containing updated actor
+        {
+            "actor": {
+            "name": "John Doe",
+            "age": 45,
+            "gender": "female",
+            "id": 2
+          },
+          "success": true
+        }
+        '''
+        try:
+            actor = Actor.query.filter_by(id=actor_id).one()
+            data = request.get_json()
+            name = data.get('name', None)
+            if name:
+                actor.name = name
+            age = data.get('age', None)
+            if age:
+                actor.age = age
+            gender = data.get('gender', None)
+            if gender:
+                actor.gender = gender
+            actor.insert()
+            return jsonify({'success': True, 'actor': actor.format()})
+        except Exception:
+            abort(404)
 
     # Error Handling
     @app.errorhandler(422)

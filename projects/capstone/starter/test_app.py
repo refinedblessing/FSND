@@ -198,6 +198,35 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message']['description'], 'Token not found.')
+
+    def test_patch_actor_by_director(self):
+        res = self.client().patch(
+          '/api/actors/1',
+          json={"name": "John David"},
+          headers={"Authorization": "Bearer " + director_role_token}
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['actor'])
+        self.assertEqual(data['actor']['name'], "John David")
+
+    def test_patch_actor_invalid_id(self):
+        res = self.client().patch(
+          '/api/actors/80000',
+          json={"name": "John David"},
+          headers={"Authorization": "Bearer " + director_role_token}
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertFalse(data['actor'])
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
